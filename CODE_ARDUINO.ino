@@ -83,7 +83,7 @@ void loop() { //répété en boucle
     //Booléens liés aux capteurs pour voir s'ils détectent ou pas :                  si c'est true, le capteur est en train de détecter
     boolean detecte_infra_haut;
     boolean detecte_infra_bas;
-    boolean detecte_infra_ciel = analogRead(INFRA_CIEL) < LIMITE_INFRA;
+    boolean detecte_infra_ciel = 28500/(analogRead(INFRA_CIEL)) < LIMITE_INFRA;
     boolean detecte_contact_haut = (digitalRead(CONTACT_HAUT) == 1);
     boolean detecte_contact_bas = (digitalRead(CONTACT_BAS) == 1);
     boolean detecte_contact_ciel = (digitalRead(CONTACT_CIEL) == 1);
@@ -97,15 +97,14 @@ void loop() { //répété en boucle
         pince_haut.write(rotation_ph);          //ici ".write(angle)" permet que le servo aille à un angle précis (ce ne sera pas pareil pour le moteur principal, qui est à rotation continue)
         delay(t);
       }
-      detecte_infra_haut = false;
       moteur_principal.write(0);  //la fonction .write(...) permet que ça tourne en continu dans un sens, l'argument permet de contrôler la vitesse (0 pour un sens, 180 pour l'autre, 94 pour l'arrêt) (pas pareil que pour les petits servos!)
       int temps_initial = millis();
-      delay(attente);      
-      
+      delay(attente); //pour que ça ne détecte pas direct
+      detecte_infra_haut = false;     
       while(!(detecte_infra_haut or detecte_infra_ciel or detecte_contact_ciel or (millis()-temps_initial) > temps_limite_montee)){     //le moteur tourne tant que l'échelon n'est pas détecté et tant qu'il n'y a pas de problème
-        detecte_infra_haut = analogRead(INFRA_HAUT) < LIMITE_INFRA; 
+        detecte_infra_haut = 28500/(analogRead(INFRA_HAUT)) < LIMITE_INFRA; 
         detecte_contact_ciel = (digitalRead(CONTACT_CIEL) == 1);
-        detecte_infra_ciel = analogRead(INFRA_CIEL) < LIMITE_INFRA;
+        detecte_infra_ciel = 28500/(analogRead(INFRA_CIEL)) < LIMITE_INFRA;
       }
       moteur_principal.writeMicroseconds(1510);  // on stoppe d'office le moteur
       
@@ -126,11 +125,11 @@ void loop() { //répété en boucle
             pince_bas.write(rotation_pb);
             delay(t);
           }
-          detecte_infra_bas = false;
           moteur_principal.write(180);           // Le moteur principal tourne dans l'autre sens
           delay(attente);
+          detecte_infra_bas = false;
           while(!detecte_infra_bas){             
-            detecte_infra_bas = (analogRead(INFRA_BAS) < LIMITE_INFRA);
+            detecte_infra_bas = 28500/(analogRead(INFRA_BAS)) < LIMITE_INFRA;
           }
           moteur_principal.writeMicroseconds(1510);
           detecte_contact_bas = (digitalRead(CONTACT_BAS) == 1);
@@ -157,11 +156,11 @@ void loop() { //répété en boucle
         pince_bas.write(rotation_pb);
         delay(t);
       }
-      detecte_infra_bas = false;
       moteur_principal.write(180);           
       delay(attente);
+      detecte_infra_bas = false;
       while(!detecte_infra_bas){             
-        detecte_infra_bas = (analogRead(INFRA_BAS) < LIMITE_INFRA);
+        detecte_infra_bas = 28500/(analogRead(INFRA_BAS)) < LIMITE_INFRA;
       }
       moteur_principal.writeMicroseconds(1510);
       detecte_contact_bas = (digitalRead(CONTACT_BAS) == 1);
@@ -198,11 +197,11 @@ void loop() { //répété en boucle
         pince_bas.write(rotation_pb);
         delay(t);
       }
-      detecte_infra_bas = false;
       moteur_principal.write(0);  //montée pince du haut BLOQUEE  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! PROBLEME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! PROBLEME !!!!!!!!!!!!!!!!!!!!!!!!!!! PROBLEME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       delay(attente);
+      detecte_infra_bas = false;
       while(!(detecte_infra_bas or detecte_contact_terre)){
-        detecte_infra_bas = analogRead(INFRA_BAS) < LIMITE_INFRA; 
+        detecte_infra_bas = 28500/(analogRead(INFRA_BAS)) < LIMITE_INFRA; 
         detecte_contact_terre = (digitalRead(CONTACT_TERRE) == 1);
       }
       moteur_principal.writeMicroseconds(1510);
@@ -221,11 +220,11 @@ void loop() { //répété en boucle
             pince_haut.write(rotation_ph);
             delay(t);
           }
-          detecte_infra_haut = false;
           moteur_principal.write(180);           // descente de la pince du haut
           delay(attente);
+          detecte_infra_haut = false;
           while(!detecte_infra_haut){             
-            detecte_infra_haut = (analogRead(INFRA_HAUT) < LIMITE_INFRA);
+            detecte_infra_haut = 28500/(analogRead(INFRA_HAUT)) < LIMITE_INFRA;
           }
           moteur_principal.writeMicroseconds(1510);
           detecte_contact_haut = (digitalRead(CONTACT_HAUT) == 1);
@@ -248,11 +247,11 @@ void loop() { //répété en boucle
         pince_haut.write(rotation_ph);
         delay(t);
       }
-      detecte_infra_haut = false;
       moteur_principal.write(180);           
       delay(attente);
+      detecte_infra_haut = false;
       while(!detecte_infra_haut){             
-        detecte_infra_haut = (analogRead(INFRA_HAUT) < LIMITE_INFRA);
+        detecte_infra_haut = 28500/(analogRead(INFRA_HAUT)) < LIMITE_INFRA;
       }
       moteur_principal.writeMicroseconds(1510);
       detecte_contact_haut = (digitalRead(CONTACT_HAUT) == 1);
@@ -271,4 +270,4 @@ void loop() { //répété en boucle
   }
 
      
-}     //                           A AJOUTER : faire en sorte que tout s'arrête si rotation_ph dépasse la limite   
+}     //                           A AJOUTER : faire en sorte que tout s'arrête si rotation_ph dépasse la limite  
