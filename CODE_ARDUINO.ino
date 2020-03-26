@@ -11,14 +11,14 @@ SoftwareSerial bluetooth(10, 11); // le pin 10 de l'Arduino se transforme en pin
 //Constantes définies ici (--> plus simple de modifier ici plutôt que partout dans le code)
 
 // < CONSTANTES POUR LES PINS >
-#define MOTEUR_PRINCIPAL 0
-#define PINCE_BAS 1
-#define PINCE_HAUT 2
+#define MOTEUR_PRINCIPAL 2
+#define PINCE_HAUT 3
+#define PINCE_BAS 4
 
-#define CONTACT_HAUT 3
-#define CONTACT_BAS 4
-#define CONTACT_CIEL 5
-#define CONTACT_TERRE 6
+#define CONTACT_HAUT 5
+#define CONTACT_BAS 6
+#define CONTACT_CIEL 7
+#define CONTACT_TERRE 8
 
 #define INFRA_HAUT A0
 #define INFRA_BAS A1
@@ -270,4 +270,4 @@ void loop() { //répété en boucle
   }
 
      
-}     //                           A AJOUTER : faire en sorte que tout s'arrête si rotation_ph dépasse la limite  
+}     //                           A AJOUTER : faire en sorte que tout s'arrête si rotation_ph dépasse la limite   
